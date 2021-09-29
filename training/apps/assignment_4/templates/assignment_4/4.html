@@ -1,0 +1,119 @@
+{% extends 'apps/base.html' %}
+{% load static %}
+{% block title %}Assignment 4{% endblock %}
+{% block style_scripts %}
+<link rel="stylesheet" href="{% static 'assignment_4/css/4.css' %}">
+{% endblock %}
+{% block main %}
+<div class="jumbotron">
+    <h3>Task 1</h3>
+    <div class="even-jumbotron" style="background-color: #f9f9f9;">
+        <p>
+            Create a python package with name <i>my_date</i> and create a module in this package with name <i>date_operations.py</i>.
+            <i>
+                <pre>
+                    my_date
+                    -- date_operations.py
+                    -- __init__.py 
+                </pre>
+            </i>
+            Write a function for all of the following functionalities in this module:
+
+            <ol>
+                <li>
+                    <b>get_current_datetime:</b> function to get current datetime
+                </li>
+                <li>
+                    <b>When entering age in string:</b> <i>19  years, 5 months, 20 days</i> it should return <i>birth_date</i>
+                </li>
+                <li>
+                    <b>When entering birth_date:</b> return age in above format
+                </li>
+                <li>
+                    <b>Time to 50:</b> when entering <i>birth_date</i> return time to <i>50 years</i> of age in above format
+                </li>
+            </ol>
+        </p>
+    </div>
+    <h5>#1</h5>
+    <div class="even-jumbotron" style="background-color: #f9f9f9; text-align: center;">
+        <div class="row">
+            <div class="col-4">
+                <b>Current Date and Time: </b>
+            </div>
+            <div class="col-4" id="cdt" style="color: crimson;">
+                {% if current_datetime %}{{ current_datetime }}{% endif %} 
+            </div>
+            <div class="col-4">
+                <button class="btn btn-primary" onclick="get_dt()">            
+                    Get
+                </button>
+            </div>
+        </div>
+    </div>
+    <h5>#2</h5>
+    <div class="even-jumbotron" style="background-color: #f9f9f9; text-align: center;">
+        <!-- <form action="" method="post"> -->
+        <div class="row">
+            <div class="col-4">
+                <label for="">
+                    <b>Enter age: </b>
+                </label>
+            </div>
+            <div class="col-4">
+                <input id="age_text_input" type="text" style="width: 100%;" placeholder="Enter age in format:  x years, y months, z days">
+            </div>
+            <div class="col-4">
+                <input class="btn btn-primary" type="submit" value="Submit" onclick="get_age_from_text()">
+            </div>
+        </div>
+        <div class="row" style="text-align: center;">
+            <div class="col-4"><b>birth_date:</b></div>
+            <div class="col-8" id="age_from_text"></div>
+        </div>
+        <!-- </form> -->
+    </div>
+</div>
+{% endblock %}
+{% block js_scripts %}
+<script>
+    function get_dt(){
+
+        const url = "{% url 'assignments:4:get_current_date' %}";
+        var dt = "";
+
+        fetch(url, {
+            method: 'GET'
+        }).then(
+            response => response.json()
+        ).then(
+            (data) => {
+                dt = data['current_datetime'];
+                var ele = document.getElementById('cdt');
+                ele.innerText = dt;
+            }
+        )
+    }
+    function get_age_from_text(){
+
+        const url = "{% url 'assignments:4:age_from_text' %}";
+        var dt = "";
+
+        post_data = {'age' : document.getElementById('age_text_input').value};
+
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(post_data)
+        }).then(
+            response => response.json()
+        ).then(
+            (data) => {
+                dt = data['birth_date'];
+                var ele = document.getElementById('age_from_text');
+                ele.innerText = dt;
+            }
+        )
+
+    }
+</script>
+{% endblock %}

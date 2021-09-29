@@ -28,17 +28,23 @@ def get_birth_date(age: str) -> date:
 
     return birth_date.date()
 
-def get_age_from_birth_date(birth_date: date) -> date:
+def get_age_from_birth_date(birth_date: date) -> str:
 
     current_date = get_current_datetime().date()
 
-    age = relativedelta.relativedelta(current_date,birth_date)
+    age = relativedelta.relativedelta(current_date, birth_date)
 
     return "{} years, {} months, {} days".format(age.years, age.months, age.days)
 
+def time_to_50(birth_date: date) -> str:
 
+    target_date = datetime.combine(birth_date, datetime.min.time()) + timedelta(years=50)
+
+    current_date = get_current_datetime().date()
+
+    expected = relativedelta.relativedelta(target_date, current_date)
     
-
+    return "{} years, {} months, {} days".format(expected.years, expected.month, expected.days)
 
 
 
