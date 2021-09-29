@@ -16,14 +16,14 @@ def get_birth_date(age: str) -> date:
         entered in the format "x years, y months, z days"
     '''
     age_dict = {
-        val.split(" ")[1]:val.split(" ")[0] 
+        val.split(" ")[1]:int(val.split(" ")[0]) 
         for val in age.split(", ")
     }
 
-    birth_date = get_current_datetime() - timedelta(
-        years=age_dict.get('years',0),
-        months=age_dict.get('months',0),
-        days=age_dict.get('days',0)
+    birth_date = get_current_datetime() - relativedelta.relativedelta(
+        years=age_dict['years'],
+        months=age_dict['months'],
+        days=age_dict['days']
     )
 
     return birth_date.date()
@@ -38,13 +38,13 @@ def get_age_from_birth_date(birth_date: date) -> str:
 
 def time_to_50(birth_date: date) -> str:
 
-    target_date = datetime.combine(birth_date, datetime.min.time()) + timedelta(years=50)
+    target_date = datetime.combine(birth_date, datetime.min.time()) + relativedelta.relativedelta(years=50)
 
     current_date = get_current_datetime().date()
 
     expected = relativedelta.relativedelta(target_date, current_date)
     
-    return "{} years, {} months, {} days".format(expected.years, expected.month, expected.days)
+    return "{} years, {} months, {} days".format(expected.years, expected.months, expected.days)
 
 
 

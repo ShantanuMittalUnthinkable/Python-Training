@@ -4,9 +4,12 @@
 {% block style_scripts %}
 <link rel="stylesheet" href="{% static 'assignment_4/css/4.css' %}">
 {% endblock %}
+{% block nav_title %}
+Assignment 4
+{% endblock %}
 {% block main %}
 <div class="jumbotron">
-    <h3>Task 1</h3>
+    <h4>Task 1</h4>
     <div class="even-jumbotron" style="background-color: #f9f9f9;">
         <p>
             Create a python package with name <i>my_date</i> and create a module in this package with name <i>date_operations.py</i>.
@@ -69,7 +72,51 @@
         </div>
         <div class="row" style="text-align: center;">
             <div class="col-4"><b>birth_date:</b></div>
-            <div class="col-8" id="age_from_text"></div>
+            <div class="col-8" id="age_from_text" style="color: crimson; text-align: left;"></div>
+        </div>
+        <!-- </form> -->
+    </div>
+    <h5>#3</h5>
+    <div class="even-jumbotron" style="background-color: #f9f9f9; text-align: center;">
+        <!-- <form action="" method="post"> -->
+        <div class="row">
+            <div class="col-4">
+                <label for="">
+                    <b>Select birth date: </b>
+                </label>
+            </div>
+            <div class="col-4">
+                <input id="age_date_input" type="date" style="width: 100%;">
+            </div>
+            <div class="col-4">
+                <input class="btn btn-primary" type="submit" value="Submit" onclick="get_text_from_date()">
+            </div>
+        </div>
+        <div class="row" style="text-align: center;">
+            <div class="col-4"><b>Age text:</b></div>
+            <div class="col-8" id="text_from_age" style="color: crimson; text-align: left;"></div>
+        </div>
+        <!-- </form> -->
+    </div>
+    <h5>#4</h5>
+    <div class="even-jumbotron" style="background-color: #f9f9f9; text-align: center;">
+        <!-- <form action="" method="post"> -->
+        <div class="row">
+            <div class="col-4">
+                <label for="">
+                    <b>Select birth date: </b>
+                </label>
+            </div>
+            <div class="col-4">
+                <input id="age_date_input1" type="date" style="width: 100%;">
+            </div>
+            <div class="col-4">
+                <input class="btn btn-primary" type="submit" value="Submit" onclick="time_to_50()">
+            </div>
+        </div>
+        <div class="row" style="text-align: center;">
+            <div class="col-4"><b>Time to 50 years:</b></div>
+            <div class="col-8" id="time_to_50" style="color: crimson; text-align: left;"></div>
         </div>
         <!-- </form> -->
     </div>
@@ -99,17 +146,74 @@
         const url = "{% url 'assignments:4:age_from_text' %}";
         var dt = "";
 
-        post_data = {'age' : document.getElementById('age_text_input').value};
+        var formData = new FormData();
+        formData.append('age',document.getElementById('age_text_input').value);
 
         fetch(url, {
             method: 'POST',
-            body: JSON.stringify(post_data)
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: formData,
         }).then(
             response => response.json()
         ).then(
             (data) => {
                 dt = data['birth_date'];
                 var ele = document.getElementById('age_from_text');
+                ele.innerText = dt;
+            }
+        )
+
+    }
+    function get_text_from_date(){
+
+        const url = "{% url 'assignments:4:text_from_age' %}";
+        var dt = "";
+
+        console.log(document.getElementById('age_date_input').value)
+
+        var formData = new FormData();
+        formData.append('birth_date',document.getElementById('age_date_input').value);
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: formData,
+        }).then(
+            response => response.json()
+        ).then(
+            (data) => {
+                dt = data['age'];
+                var ele = document.getElementById('text_from_age');
+                ele.innerText = dt;
+            }
+        )
+    }
+    function time_to_50(){
+
+        const url = "{% url 'assignments:4:time_to_50' %}";
+        var dt = "";
+
+        console.log(document.getElementById('age_date_input1').value)
+
+        var formData = new FormData();
+        formData.append('birth_date',document.getElementById('age_date_input1').value);
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: formData,
+        }).then(
+            response => response.json()
+        ).then(
+            (data) => {
+                dt = data['age'];
+                var ele = document.getElementById('time_to_50   ');
                 ele.innerText = dt;
             }
         )

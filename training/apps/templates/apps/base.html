@@ -9,12 +9,38 @@
     {% block style_scripts %}
 
     {% endblock %}
+    <style>
+        #nav_style {
+            height: 3.5rem;
+            background: linear-gradient(-45deg,#ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: bg_gradient 15s ease infinite;
+        }
+        @keyframes bg_gradient{
+            0%{
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar fixed-top navbar-light bg-light shadow-sm" style="height: 3.5rem;">
+    <nav class="navbar fixed-top navbar-light shadow-sm" id="nav_style">
         <div class="container-fluid">
+            <div style="width: 100%; text-align: center; color: white;">
+                <h2>
+                    {% block nav_title %}
+                        Assignments
+                    {% endblock %}
+                </h2>
+            </div>
             {% block navbar %}
-            <a class="navbar-brand test" href="#">Assignments</a>
+            <!-- <a class="navbar-brand test" href="#">Assignments</a> -->
             {% endblock %}
         </div>
     </nav>

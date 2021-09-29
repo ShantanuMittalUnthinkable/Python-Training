@@ -18,8 +18,10 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls.conf import include
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', TemplateView.as_view(template_name='apps/home.html')),
     path('assignments/', include('apps.urls', namespace='assignments')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
