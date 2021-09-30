@@ -1,0 +1,19 @@
+.jumbotron {
+    padding: 1rem 1rem;
+    margin-bottom: 2rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    background-color: #D9D2E9;
+    border-style: solid;
+    border-width: 3px;
+    /* border-color: black; */
+    border-color: #6FA8DC;
+    border-radius: .5rem;
+}
+
+.even-jumbotron {
+    padding: .5rem .5rem;
+    margin: .5rem;
+    background-color: #FFFAED;
+    border-radius: .5rem;
+}

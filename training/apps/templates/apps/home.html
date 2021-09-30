@@ -6,19 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <style>
         #a4:hover {
             background: linear-gradient(teal, lightblue);
         }
+        #a5:hover {
+            background: linear-gradient(red, orange);
+        }
     </style>
 </head>
 <body>
-    <div class="container" style="background-color: black; color: white; margin-top: 20%; margin-bottom: 20%; height: 60%; border-radius: 0.3rem;">
+    <div class="container" style="background-color: white; color: black; margin-top: 15%; margin-bottom: 15%; height: 65%; border-style: solid; border-width: 3px; border-color: black;">
         <br>
-        <span style="text-align: center;">
-            <h2>Welcome</h2>
+        <span style="text-align: left; font-family: 'Open Sans', sans-serif;">
+            <h1>Hi there.</h1>
         </span>
-        <hr style="border: 1px solid white;">
+        <br>
+        <p style="font-size: 1.25rem;">
+            Pick the assignment you want to see below:
+        </p>
         <br>
         <div style="text-align: center;">
             <div class="row">
@@ -33,7 +42,11 @@
             <br>
             <div class="row">
                 <div class="col-4"></div>
-                <div class="col-4"><h4>Assignment 5</h4></div>
+                <div class="col-4">
+                    <a id="a5" href="{% url 'assignments:5:main' %}" class="btn btn-lg btn-outline-light">
+                        <b>Assignment 5</b>
+                    </a>
+                </div>
                 <div class="col-4"></div>
             </div>
         </div>

@@ -22,6 +22,6 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='apps/home.html')),
+    path('', TemplateView.as_view(template_name='apps/home.html'), name='home'),
     path('assignments/', include('apps.urls', namespace='assignments')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
