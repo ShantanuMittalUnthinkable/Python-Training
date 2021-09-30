@@ -10,11 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <style>
-        #a4:hover {
-            background: linear-gradient(teal, lightblue);
+        #a4:hover span{
+            /* background: linear-gradient(teal, lightblue); */
+            font-weight: bolder;
         }
-        #a5:hover {
-            background: linear-gradient(red, orange);
+        #a5:hover span{
+            /* background: linear-gradient(red, orange); */
+            font-weight: bolder;
         }
     </style>
 </head>
@@ -25,31 +27,44 @@
             <h1>Hi there.</h1>
         </span>
         <br>
-        <p style="font-size: 1.25rem;">
+        <p style="font-size: 1.25rem; font-family: 'Open Sans', sans-serif;">
             Pick the assignment you want to see below:
         </p>
-        <br>
-        <div style="text-align: center;">
+        <!-- <div style="text-align: center;">
             <div class="row">
                 <div class="col-4"></div>
-                <div class="col-4">
-                    <a id="a4" href="{% url 'assignments:4:main' %}" class="btn btn-lg btn-outline-light">
-                        <b>Assignment 4</b>
-                    </a>
-                </div>
+                <div class="col-4"> -->
+        <p style="font-size: 1.25rem; font-family: 'Open Sans', sans-serif;">
+            <a id="a4" href="{% url 'assignments:4:main' %}" style="text-decoration: none; color: black; font-weight: normal;">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                    </svg>
+                    Assignment 4
+               </span>
+            </a>
+        </p>
+                <!-- </div>
                 <div class="col-4"></div>
             </div>
             <br>
             <div class="row">
                 <div class="col-4"></div>
-                <div class="col-4">
-                    <a id="a5" href="{% url 'assignments:5:main' %}" class="btn btn-lg btn-outline-light">
-                        <b>Assignment 5</b>
-                    </a>
-                </div>
+                <div class="col-4"> -->
+        <p style="font-size: 1.25rem; font-family: 'Open Sans', sans-serif;">
+            <a id="a5" href="{% url 'assignments:5:main' %}" style="text-decoration: none; color: black; font-weight: normal;">
+               <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                    </svg>
+                    Assignment 5
+               </span>
+            </a>
+        </p>
+                <!-- </div>
                 <div class="col-4"></div>
             </div>
-        </div>
+        </div> -->
         <br>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>

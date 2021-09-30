@@ -6,6 +6,7 @@
 {% endblock %}
 {% block nav_title %}Assignment 5{% endblock %}
 {% block next_url %}{% url 'assignments:4:main' %}{% endblock %}
+{% block tt %}Assignment 4{% endblock %}
 {% block main %}
 <div class="jumbotron">
     <h4>Task 1</h4>
@@ -21,38 +22,57 @@
             Take at least three child classes and show computed area for each shape
         </p>
     </div>
+    <h5>#</h5>
     <div class="even-jumbotron"></div>
 </div>
 <div class="jumbotron">
-    <h4>Task 1</h4>
+    <h4>Task 2</h4>
     <div class="even-jumbotron">
         <p>
-            Write an base class name Shape that have a abstract method: <i>def area()</i> 
+            <ol>
+                <li>
+                    Create a super class called <i>Car</i>. The Car class has the following properties:<i> Speed; regularPrice; color;</i>
+                    It should have a method <i>doublegetSalePrice()</i> which will return the sale price of the car.
+                </li>   
+                <li>
+                    Create a sub class of Car class and name it as Truck. The Truck class has a field : weight. 
+                    Override doublegetSalePrice() in a way that If weight>2000 then 10% discount, Otherwise no discount
+                </li>
+                <li>
+                    Create a subclass of Car class and name it as Ford. The Ford class has a field manufacturer Discount.
+                    Override doublegetSalePrice() in a way that it will always subtract the manufacturer Discount.
+                </li>
+                <li>
+                    Create a subclass of Car class and name it as Sedan. The Sedan class has a field length. 
+                    Override doublegetSalePrice() in a way that If length > 20 feet, 5% discount, Otherwise , 10% discount.
+                </li>
+            </ol>
         </p>
         <p>
-            Also have a class method name <i>get()</i> which accepts a name of the shape and returns the child class object.
-            Child classes will implement how to compute the area. 
-        </p>
-        <p>
-            Take at least three child classes and show computed area for each shape
+            Create instances of all type of cars and show the sale price of all of them.
         </p>
     </div>
+    <h5>#</h5>
     <div class="even-jumbotron"></div>
 </div>
 <div class="jumbotron">
-    <h4>Task 1</h4>
+    <h4>Task 3</h4>
     <div class="even-jumbotron">
         <p>
-            Write an base class name Shape that have a abstract method: <i>def area()</i> 
+            Design a linked list that supports these ops: 
         </p>
         <p>
-            Also have a class method name <i>get()</i> which accepts a name of the shape and returns the child class object.
-            Child classes will implement how to compute the area. 
-        </p>
-        <p>
-            Take at least three child classes and show computed area for each shape
+            <ol>
+                <li>Adds an element at the end.</li>
+                <li>Adds an element between the two elements.</li>
+                <li>Deletes an element from the given key.</li>
+                <li>Search an element from the given key.</li>
+                <li>Display the complete linked list.</li>
+                <li>Reverse the linked list.</li>
+            </ol> 
         </p>
     </div>
+    <h5>#</h5>
     <div class="even-jumbotron"></div>
 </div>
 {% endblock %}

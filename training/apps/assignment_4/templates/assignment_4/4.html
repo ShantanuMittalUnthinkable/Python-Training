@@ -8,6 +8,7 @@
 Assignment 4
 {% endblock %}
 {% block next_url %}{% url 'assignments:5:main' %}{% endblock %}
+{% block tt %}Assignment 5{% endblock %}
 {% block main %}
 <div class="jumbotron">
     <h4>Task 1</h4>
@@ -214,7 +215,7 @@ Assignment 4
         ).then(
             (data) => {
                 dt = data['age'];
-                var ele = document.getElementById('time_to_50   ');
+                var ele = document.getElementById('time_to_50');
                 ele.innerText = dt;
             }
         )
