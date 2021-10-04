@@ -169,8 +169,8 @@
             <div class="col-4">
                 <input type="text" id="input_key" placeholder="Enter key here">
             </div>
-            <div class="col-4" style="visibility: hidden;">
-                <input type="text" id="input_node" placeholder="Enter node key here">
+            <div class="col-4">
+                <input  style="visibility: hidden;" type="text" id="input_node" placeholder="Enter node key here">
             </div>
             <div class="col-4">
                 <button type="submit" class="btn btn-primary" onclick="run_operation()">Submit</button>
@@ -330,7 +330,18 @@
                 document.getElementById('input_key').style.visibility = 'hidden';
             }
             else{
-                document.getElementById('input_key').style.visibility = 'visible';
+                if(op != 1){
+                    document.getElementById('input_key').style.visibility = 'visible';
+                }
+                else{
+                    document.getElementById('input_key').style.visibility = 'hidden';
+                }
+                if(op == 2 || op == 1){
+                    document.getElementById('input_node').style.visibility = 'visible';
+                }
+                else{
+                    document.getElementById('input_node').style.visibility = 'hidden';
+                }
             }
         }
         else{
@@ -354,7 +365,12 @@
         formData.append('operation', operation)
 
         if(operation != 6){
-            formData.append('key',document.getElementById('input_key').value)
+            if(operation != 1){
+                formData.append('key',document.getElementById('input_key').value)
+            }
+            if(operation == 2 || operation == 1){
+                formData.append('node',document.getElementById('input_node').value)
+            }
         }
 
         fetch(url, {

@@ -6,7 +6,7 @@ class Node:
     data: Any
     next_node: Any = None
 
-    def __init__(self, data: Any, next_node: Any) -> None:
+    def __init__(self, data: Any, next_node: Any = None) -> None:
         self.data = data
         self.next_node = next_node
 
@@ -63,8 +63,10 @@ class LinkedList:
         previous_node = None
 
         p = self.first
+        print(p)
 
         while(p.data != key):
+            print(p)
             previous_node = p
             p = p.next_node
 

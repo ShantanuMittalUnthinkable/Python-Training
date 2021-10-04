@@ -8,6 +8,8 @@ from .q3 import LinkedList, Node
 from .q2 import Car
 from .q1 import Shape
 
+global_ll = None
+
 class Assignment5View(View):
 
     def get(self, request):
@@ -65,15 +67,17 @@ class Q3View(View):
 
     def post(self, request):
 
-        if 'll' not in request.session.keys():
-            request.session['ll'] = LinkedList()
+        global global_ll
+
+        if not global_ll:
+            global_ll = LinkedList()
 
         ops = {
-            1: request.session['ll'].append_node,
-            2: request.session['ll'].add_node,
-            3: request.session['ll'].delete_node,
-            4: request.session['ll'].search_node,
-            6: request.session['ll'].reverse
+            1: global_ll.append_node,
+            2: global_ll.add_node,
+            3: global_ll.delete_node,
+            4: global_ll.search_node,
+            6: global_ll.reverse
         }
 
         operation = int(request.POST.get('operation'))
@@ -99,6 +103,6 @@ class Q3View(View):
         return JsonResponse(
             {
                 'response': response,
-                'list': request.session.get('ll').display_all()
+                'list': global_ll.display_all()
             }
         )
