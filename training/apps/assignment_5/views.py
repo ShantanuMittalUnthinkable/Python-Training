@@ -65,8 +65,37 @@ class Q3View(View):
 
     def post(self, request):
 
-        linked_list = LinkedList
+        if 'll' not in request.session.keys():
+            request.session['ll'] = LinkedList()
 
         ops = {
-            1: ""
+            1: request.session['ll'].append_node,
+            2: request.session['ll'].add_node,
+            3: request.session['ll'].delete_node,
+            4: request.session['ll'].search_node,
+            6: request.session['ll'].reverse
         }
+
+        operation = int(request.POST.get('operation'))
+
+        callable = ops[operation]
+        if operation != 6:
+            try:
+                if 'key' in request.POST.keys() and 'node' in request.POST.keys():
+                    response = callable(request.POST.get('key'), request.POST.get('node'))
+            except Exception as e:
+                JsonResponse(
+                    {
+                        'error': str(e),
+                        'list': request.session.get('ll').display_all()
+                    }
+                )
+        else:
+            callable()
+
+        return JsonResponse(
+            {
+                'response': response,
+                'list': request.session.get('ll').display_all()
+            }
+        )

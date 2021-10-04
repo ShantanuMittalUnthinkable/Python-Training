@@ -169,7 +169,7 @@
                 <input type="text" id="input_key" placeholder="Enter key here">
             </div>
             <div class="col-6">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" onclick="run_operation()">Submit</button>
             </div>
         </div>
     </div>
@@ -322,6 +322,12 @@
         if(op != 0){
             operation = op;
             document.getElementById('op_row').style.visibility = 'visible';
+            if(op == 6){
+                document.getElementById('input_key').style.visibility = 'hidden';
+            }
+            else{
+                document.getElementById('input_key').style.visibility = 'visible';
+            }
         }
         else{
             operation = null;
@@ -330,7 +336,43 @@
 
     }
 
-    function run_operation()
+    function run_operation(){
+        
+        if(list == [] & operation != 1){
+            document.getElementById('ll_represent').innerHTML = "Empty list, please append an element"
+            return
+        }
+
+        var url = "{% url 'assignments:5:q3' %}"
+        var dt = ""
+
+        var formData = new FormData()
+        formData.append('operation', operation)
+
+        if(operation != 6){
+            formData.append('key',document.getElementById('input_key').value)
+        }
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: formData,
+        }).then(
+            response => response.json()
+        ).then(
+            (data) => {
+                // dt = data['price'];
+                // var ele = document.getElementById('car_final_price');
+                // ele.innerHTML = dt;
+                console.log(data)
+            }
+        )
+        
+        
+
+    }
 
 </script>
 {% endblock %}

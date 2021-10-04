@@ -64,3 +64,48 @@ class LinkedList:
             raise Exception("Key not present in linked list.")
         
         previous_node.next_node = p.next_node
+
+    def display_all(self):
+
+        result = []
+
+        p = self.first
+        if self.first:
+            while(p.next_node != None):
+                result.append(p.data)
+                p = p.next_node
+
+        return result
+
+    def reverse(self):
+
+        next_node = None
+        previous_node = None
+        
+        p = self.first
+
+        while(p != None):
+
+            next_node = p.next_node
+
+            p.next_node = previous_node
+            previous_node = p
+
+            p = next_node
+
+        self.first = previous_node
+
+    def search_node(self, key):
+
+        position = 0
+
+        p = self.first
+        found = False
+
+        while(p.next_node != None):
+            if p.data == key:
+                return position
+            else:
+                position += 1
+
+        return -1
