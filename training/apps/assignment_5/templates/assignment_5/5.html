@@ -23,7 +23,35 @@
         </p>
     </div>
     <h5>#</h5>
-    <div class="even-jumbotron"></div>
+    <div class="even-jumbotron">
+        <div class="row">
+            <div class="col-4">
+                <label for="child_class"><b>Select Child Class:</b></label>
+            </div>
+            <div class="col-4">
+                <select name="child_class" style="width: 100%;" id="class_select" onchange="set_args()">
+                    <option value="">Select Shape</option>
+                    {% for class in child_classes %}
+                    <option value="{{ class }}">{{ class.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <br>
+        <div class="row" style="visibility: hidden; " id="args_form">
+            <div class="col-4" id="arg-0"></div>
+            <div class="col-4" id="arg-1"></div>
+            <div class="col-4 row" id="arg-2">
+                <div class="col-6">
+                    <button class="btn btn-primary" type="submit" onclick="get_area()">Area</button>
+                </div>
+                <div class="col-6" id="area_result" style="color: red;">
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="jumbotron">
     <h4>Task 2</h4>
@@ -53,7 +81,49 @@
         </p>
     </div>
     <h5>#</h5>
-    <div class="even-jumbotron"></div>
+    <div class="even-jumbotron">
+        <div class="row">
+            <div class="col-4">
+                <label for="car_child_select">
+                    <b>Select child class:</b>
+                </label>
+            </div>
+            <div class="col-4">
+                <select name="car_child_select" id="car_child_select" style="width: 100%;" onchange="set_car_child_args(this.value)">
+                    <option value="">Select Child</option>
+                    {% for child in car_child_classes %}
+                    <option value="{{ child }}">{{ child.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <br>
+        <div class="row" id="ip1" style="visibility: hidden;">
+            <div class="col-4">
+                <input type="number" id="base_arg_0" placeholder="speed" style="width: 80%;">
+            </div>
+            <div class="col-4">
+                <input type="number" id="base_arg_1" placeholder="regular_price" style="width: 80%;">
+            </div>
+            <div class="col-4">
+                <input type="text" id="base_arg_2" placeholder="color" style="width: 80%;">
+            </div>
+        </div>
+        <br>
+        <div class="row" id="ip2" style="visibility: hidden;">
+            <div class="col-4" id="car_child_arg"></div>
+            <div class="col-8 row">
+                <div class="col-4">
+                    <button class="btn btn-primary" type="submit" onclick="getCarPrice()">Calculate Price</button>
+                </div>
+                <div class="col-8 row">
+                    <div class="col-6"><b>Result: </b></div>
+                    <div class="col-6" style="color: red;" id="car_final_price"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="jumbotron">
     <h4>Task 3</h4>
@@ -72,7 +142,195 @@
             </ol> 
         </p>
     </div>
-    <h5>#</h5>
-    <div class="even-jumbotron"></div>
+    <h5>#Representation</h5>
+    <div class="even-jumbotron">
+        <h2 id="ll_represent" style="color:darkblue;">Nothing to show.</h2>
+    </div>
+    <h5>#Operation</h5>
+    <div class="even-jumbotron">
+        <div class="row">
+            <div class="col-6">
+                <b>Select operation:</b>
+            </div>
+            <div class="col-6">
+                <select id="operation_select" onchange="set_operation(this.value)">
+                    <option value="0">Select an operation</option>
+                    <option value="1">Append element</option>
+                    <option value="2">Add element after a key</option>
+                    <option value="3">Delete a key</option>
+                    <option value="4">Search a key</option>
+                    <option value="6">Reverse linked list</option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="row" style="visibility: hidden;" id="op_row">
+            <div class="col-6">
+                <input type="text" id="input_key" placeholder="Enter key here">
+            </div>
+            <div class="col-6">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+    <!-- <h5>#Result</h5>
+    <div class="even-jumbotron"></div> -->
 </div>
+{% endblock %}
+{% block js_scripts %}
+<script>
+
+    var args_list = [];
+    var shape = "";
+
+    var car_args_list = [];
+    var  car = "";
+
+    function set_args(){
+
+        const result_ele = document.getElementById('area_result')
+        result_ele.innerHTML = "";
+
+        var sel_ele = document.getElementById('class_select');
+        const args_row = document.getElementById('args_form');
+        
+        if(sel_ele.value != ""){
+        
+            args_row.style.visibility = 'visible';
+        
+            var oth_string = sel_ele.value.replaceAll("\'","\"");
+            
+            parsed_data = JSON.parse(oth_string)
+            
+            args_list = parsed_data.args;
+            shape = parsed_data.name
+        
+            args_list.forEach(arg => {
+                var arg_id = args_list.indexOf(arg)
+                var temp_ele = document.getElementById('arg-'+arg_id);
+                temp_ele.innerHTML = `<input id=\"arg-input-${arg_id}\" type=\"number\" step=\"0.1\" placeholder=\"${arg}\" style=\"max-width: 80%;\">`;
+            });
+        
+            return
+        }
+        else{
+            args_row.style.visibility = 'hidden';
+        }
+    }
+    function get_area(){
+        
+        const url = "{% url 'assignments:5:q1' %}"
+        var dt=""
+
+        var formData = new FormData();
+        
+        var kwargs = {}
+        args_list.forEach(arg=>{
+                kwargs[arg]=document.getElementById(`arg-input-${args_list.indexOf(arg)}`).value;
+            }
+        )
+
+        formData.append('name',shape);
+        formData.append('kwargs',JSON.stringify(kwargs))
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: formData,
+        }).then(
+            response => response.json()
+        ).then(
+            (data) => {
+                dt = data['area'];
+                var ele = document.getElementById('area_result');
+                ele.innerHTML = dt+" unit<sup>2<sup>";
+            }
+        )
+
+    }
+    function set_car_child_args(child){
+
+        document.getElementById('car_final_price').innerHTML = "";
+
+        if(child!==""){
+
+            child_parsed = child.replaceAll("\'","\"")
+            child_data = JSON.parse(child_parsed)
+            car_args_list = child_data.args
+            car = child_data.name
+    
+            car_args_list.forEach(arg=>{
+                var ele = document.getElementById('car_child_arg');
+                ele.innerHTML = `<input id="base_arg_3" type=\"number\" name=\"${arg}\" placeholder=\"${arg}\">`;
+            })
+
+            document.getElementById('ip1').style.visibility = 'visible';
+            document.getElementById('ip2').style.visibility = 'visible';
+
+        }
+        else{
+            var ele = document.getElementById('car_child_arg');
+            ele.innerHTML = "";
+
+            document.getElementById('ip1').style.visibility = 'hidden';
+            document.getElementById('ip2').style.visibility = 'hidden';
+
+        }
+
+    }
+
+    function getCarPrice(){
+
+        const url = "{% url 'assignments:5:q2' %}"
+        var dt = ""
+
+        var formData = new FormData()
+
+        formData.append('name',car)
+        for(var index=0; index<4; index=index+1){
+            var ele = document.getElementById(`base_arg_${index}`)
+            formData.append(ele.placeholder, ele.value)    
+        }
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: formData,
+        }).then(
+            response => response.json()
+        ).then(
+            (data) => {
+                dt = data['price'];
+                var ele = document.getElementById('car_final_price');
+                ele.innerHTML = dt;
+            }
+        )
+
+    }
+
+    var operation = null
+    var list = []
+
+    function set_operation(op){
+        
+        console.log(op)
+
+        if(op != 0){
+            operation = op;
+            document.getElementById('op_row').style.visibility = 'visible';
+        }
+        else{
+            operation = null;
+            document.getElementById('op_row').style.visibility = 'hidden';
+        }
+
+    }
+
+    function run_operation()
+
+</script>
 {% endblock %}

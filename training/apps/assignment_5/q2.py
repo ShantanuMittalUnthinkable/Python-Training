@@ -1,4 +1,4 @@
-from abc import abstractmethod
+from abc import abstractmethod, abstractclassmethod
 
 class Car:
 
@@ -9,13 +9,31 @@ class Car:
         color: str
     ) -> None:
         
-        self.speed = speed
-        self.regular_price = regular_price
+        self.speed = int(speed)
+        self.regular_price = float(regular_price)
         self.color = color
 
     def doublegetSalePrice(self):
         
         return self.regular_price
+
+    @classmethod
+    def get(cls, name: str):
+
+        """
+        Method to get sub-class object by name of shape
+        """
+
+        for shape in cls.__subclasses__():
+            if shape.__name__ == name:
+                return shape
+
+        return None
+
+    @classmethod
+    def get_extra_args(cls):
+
+        raise NotImplementedError("get_extra_args() is required to be implemented.")
 
 class Truck(Car):
 
@@ -24,19 +42,24 @@ class Truck(Car):
         speed: int, 
         regular_price: float, 
         color: str, 
-        weight: float
+        kwargs
     ) -> None:
         
         super().__init__(speed, regular_price, color)
         
-        self.weight = weight
+        self.weight = float(kwargs['weight'])
 
     def doublegetSalePrice(self):
-        
+
         if self.weight > 2000.0:
-            return self.regular_price*0.9
+            return self.regular_price*0.90
         
         return self.regular_price
+
+    @classmethod
+    def get_extra_args(cls):
+
+        return ['weight']
 
 class Ford(Car):
 
@@ -45,17 +68,21 @@ class Ford(Car):
         speed: int, 
         regular_price: float, 
         color: str, 
-        manufacturer_discount: 
-        float
+        kwargs
     ) -> None:
         
         super().__init__(speed, regular_price, color)
 
-        self.manufacturer_discount = manufacturer_discount
+        self.manufacturer_discount = float(kwargs['manufacturer_discount'])
 
     def doublegetSalePrice(self):
     
         return self.regular_price - self.manufacturer_discount
+
+    @classmethod
+    def get_extra_args(cls):
+
+        return ['manufacturer_discount']
 
 class Sedan(Car):
 
@@ -64,11 +91,11 @@ class Sedan(Car):
         speed: int, 
         regular_price: float, 
         color: str, 
-        length: float
+        kwargs
     ) -> None:
     
         super().__init__(speed, regular_price, color)
-        self.length = length
+        self.length = float(kwargs['length'])
 
     def doublegetSalePrice(self):
         
@@ -76,3 +103,8 @@ class Sedan(Car):
             return self.regular_price*0.95
 
         return self.regular_price*0.90
+
+    @classmethod
+    def get_extra_args(cls):
+
+        return ['length']
