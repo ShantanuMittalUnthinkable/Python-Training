@@ -4,7 +4,7 @@ from django.http.response import JsonResponse
 from django.views import View
 from django.shortcuts import render
 
-from .q3 import LinkedList
+from .q3 import LinkedList, Node
 from .q2 import Car
 from .q1 import Shape
 
@@ -78,18 +78,21 @@ class Q3View(View):
 
         operation = int(request.POST.get('operation'))
 
+        response = None
+
         callable = ops[operation]
         if operation != 6:
             try:
                 if 'key' in request.POST.keys() and 'node' in request.POST.keys():
-                    response = callable(request.POST.get('key'), request.POST.get('node'))
+                    node = Node(data=request.POST.get('node'))
+                    response = callable(request.POST.get('key'), node)
+                elif 'node' in request.POST.keys() and not 'key' in request.POST.keys():
+                    node = Node(data=request.POST.get('node'))
+                    response = callable(node)
+                elif 'key' in request.POST.keys() and not 'node' in request.POST.keys():
+                    response = callable(request.POST.get('key'))
             except Exception as e:
-                JsonResponse(
-                    {
-                        'error': str(e),
-                        'list': request.session.get('ll').display_all()
-                    }
-                )
+                response = str(e)
         else:
             callable()
 

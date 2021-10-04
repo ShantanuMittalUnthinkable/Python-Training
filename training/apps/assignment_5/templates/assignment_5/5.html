@@ -144,6 +144,7 @@
     </div>
     <h5>#Representation</h5>
     <div class="even-jumbotron">
+        {{ request.session.ll }}
         <h2 id="ll_represent" style="color:darkblue;">Nothing to show.</h2>
     </div>
     <h5>#Operation</h5>
@@ -165,10 +166,13 @@
         </div>
         <br>
         <div class="row" style="visibility: hidden;" id="op_row">
-            <div class="col-6">
+            <div class="col-4">
                 <input type="text" id="input_key" placeholder="Enter key here">
             </div>
-            <div class="col-6">
+            <div class="col-4" style="visibility: hidden;">
+                <input type="text" id="input_node" placeholder="Enter node key here">
+            </div>
+            <div class="col-4">
                 <button type="submit" class="btn btn-primary" onclick="run_operation()">Submit</button>
             </div>
         </div>

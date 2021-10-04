@@ -6,11 +6,19 @@ class Node:
     data: Any
     next_node: Any = None
 
+    def __init__(self, data: Any, next_node: Any) -> None:
+        self.data = data
+        self.next_node = next_node
+
 class LinkedList:
 
     def __init__(self, first: Node = None) -> None:
         
         self.first = first
+
+    def __str__(self) -> str:
+        
+        return str(self.display_all())
 
     def append_node(self, incoming_node: Node) -> None:
 
@@ -71,6 +79,7 @@ class LinkedList:
 
         p = self.first
         if self.first:
+            print(p)
             while(p.next_node != None):
                 result.append(p.data)
                 p = p.next_node
