@@ -1,5 +1,8 @@
-from celery_demo.celery import app
+from celery import shared_task
 
-@app.task(bind=True)
-def value_of_pi(self):
-    print('Request: {0!r}'.format(self.request))
+@shared_task
+def value_of_pi():
+    counter = 0
+    print(counter)
+    counter += 1
+    return counter
