@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block body %}
+    {% for reminder in reminders %}
+        {{ reminder }}
+    {% endfor %}
+    {% autoescape off %}
+        {{ calendar }}
+    {% endautoescape %}
+{% endblock %}
