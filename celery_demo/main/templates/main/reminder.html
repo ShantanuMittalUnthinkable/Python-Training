@@ -1,9 +1,40 @@
 {% extends 'base.html' %}
+{% block title %}
+Reminders
+{% endblock %}
+{% block style %}
+<style>
+    .month {
+        height: 100%;
+        width: 100%;
+        border-style: solid;
+        border-color: black;
+        border-width: 2px;
+        text-align: center;
+    }
+
+    .sat,
+    .sun {
+        color: red;
+    }
+
+    td {
+        border-style: solid;
+        border-width: 1px;
+    }
+</style>
+{% endblock %}
 {% block body %}
-    {% for reminder in reminders %}
-        {{ reminder }}
-    {% endfor %}
+{% comment %} {% for reminder in reminders %}
+{{ reminder }}
+{% endfor %} {% endcomment %}
+<div id="calendar_space" class="container">
     {% autoescape off %}
-        {{ calendar }}
+    {{ calendar }}
     {% endautoescape %}
+</div>
+<br>
+{% comment %} <div id="reminders">
+    {% include 'main/reminder.html' %}
+</div> {% endcomment %}
 {% endblock %}

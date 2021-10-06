@@ -12,8 +12,14 @@ class ReminderView(View):
     def get(self, request):
         reminders = Reminder.objects.all()
         today = date.today()
-        cal = calendar.HTMLCalendar().formatmonth(today.year, today.month)
-        context = {"reminders": reminders, "calendar": cal}
+        cal = calendar.HTMLCalendar().formatmonth(
+            today.year, today.month, withyear=True
+        )
+        context = {
+            "reminders": reminders,
+            "calendar": cal,
+            "reminder_form": ReminderForm(),
+        }
         return render(request, "main/reminder.html", context=context)
 
     def post(self, request):
