@@ -16,7 +16,7 @@ from .models import Reminder
 
 @receiver(post_save, sender=Reminder)
 def set_task(sender, instance, created, **kwargs):
-    scheduled_datetime = instance.scheduled_at
+    scheduled_datetime = instance.scheduled_at - timedelta(hours=5, minutes=30)
     if created:
         try:
             schedule = CrontabSchedule.objects.create(
