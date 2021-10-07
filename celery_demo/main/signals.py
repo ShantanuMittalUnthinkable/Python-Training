@@ -5,21 +5,33 @@ from django_celery_beat.models import PeriodicTask, CrontabSchedule
 from .models import Reminder
 
 
+# @receiver(post_save, sender=Reminder, dispatch_uid="update_stock_count")
+# def update_stock(sender, instance, created, **kwargs):
+#     print("RUNNING")
+#     if created:
+#         instance.product.stock -= instance.amount
+#         instance.product.save()
+
+
 @receiver(post_save, sender=Reminder)
-def set_task(sender, instance, **kwargs):
+def set_task(sender, instance, created, **kwargs):
 
     scheduled_datetime = instance.scheduled_at
 
-    # schedule = CrontabSchedule.objects.create(
-    #     minute=scheduled_datetime.minute,
-    #     hour=scheduled_datetime.hour
-    # )
-    print("Signal called")
+    if created:
 
-    PeriodicTask.objects.create(
-        name=instance.title,
-        task="main.set_reminder",
-        expire_seconds=1,
-        one_off=True,
-        start_time=scheduled_datetime,
-    )
+        try:
+            schedule = CrontabSchedule.objects.create(
+                minute=scheduled_datetime.minute, hour=scheduled_datetime.hour
+            )
+
+            PeriodicTask.objects.create(
+                name=instance.heading,
+                task="main.tasks.set_reminder",
+                crontab=schedule,
+                expire_seconds=1,
+                one_off=True,
+                start_time=scheduled_datetime,
+            )
+        except:
+            instance.delete()
