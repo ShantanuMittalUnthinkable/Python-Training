@@ -1,3 +1,4 @@
+import json
 from datetime import timedelta
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -15,16 +16,12 @@ from .models import Reminder
 
 @receiver(post_save, sender=Reminder)
 def set_task(sender, instance, created, **kwargs):
-
     scheduled_datetime = instance.scheduled_at
-
     if created:
-
         try:
             schedule = CrontabSchedule.objects.create(
                 minute=scheduled_datetime.minute, hour=scheduled_datetime.hour
             )
-
             PeriodicTask.objects.create(
                 name=instance.heading,
                 task="main.tasks.set_reminder",
@@ -32,6 +29,7 @@ def set_task(sender, instance, created, **kwargs):
                 expire_seconds=1,
                 one_off=True,
                 start_time=scheduled_datetime,
+                args=json.dumps([str(instance.pk)]),
             )
         except:
             instance.delete()
