@@ -85,6 +85,7 @@ Reminders
                     <th>Heading</th>
                     <th>Body</th>
                     <th>DateTime</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -94,6 +95,9 @@ Reminders
                     <td>{{ reminder.heading }}</td>
                     <td>{{ reminder.body }}</td>
                     <td>{{ reminder.scheduled_at }}</td>
+                    <td>
+                        <a href="{% url 'main:reminder-detail' pk=reminder.pk %}">Delete</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

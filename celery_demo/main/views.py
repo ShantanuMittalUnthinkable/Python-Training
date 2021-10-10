@@ -1,18 +1,19 @@
 import calendar
 from datetime import datetime, date
 from django.shortcuts import redirect, render
-from django.urls import conf
+from django.http import JsonResponse
+from django.urls import reverse
 from django.views import View
-from django.shortcuts import render
-from .models import Reminder
-from .forms import ReminderForm
+from .models import Reminder, Contact
+from .forms import ReminderForm, ContactForm
 
 
 class ReminderView(View):
-
-    http_method_names = ["get", "post", "put", "delete"]
-
     def get(self, request):
+
+        if "contact" not in request.session.keys():
+            return redirect(reverse("main:home"))
+
         cal = None
         today = date.today()
         if "selected_month" in request.GET.keys():
@@ -26,7 +27,7 @@ class ReminderView(View):
             cal = calendar.HTMLCalendar().formatmonth(
                 today.year, today.month, withyear=True
             )
-        reminders = Reminder.objects.all()
+        reminders = Reminder.objects.filter(contact__pk=request.session["contact"])
         context = {
             "reminders": reminders,
             "calendar": cal,
@@ -37,9 +38,14 @@ class ReminderView(View):
 
     def post(self, request):
 
+        if "contact" not in request.session.keys():
+            return redirect(reverse("main:home"))
+
         form = ReminderForm(request.POST)
         if form.is_valid():
-            form.save()
+            ob = form.save(commit=False)
+            ob.contact = Contact.objects.get(pk=request.session["contact"])
+            ob.save()
             return redirect(request.META["HTTP_REFERER"])
         reminders = Reminder.objects.all()
         today = date.today()
@@ -53,6 +59,26 @@ class ReminderView(View):
         }
         return render(request, "main/reminder.html", context=context)
 
-    def delete(self, request, pk):
 
-        pass
+def delete_reminder(request, pk):
+
+    qs = Reminder.objects.filter(pk=pk)
+    if qs.exists():
+        qs.delete()
+
+    return redirect(reverse("main:reminder"))
+
+
+class HomeView(View):
+    def get(self, request):
+        context = {"contact_form": ContactForm()}
+        return render(request, "main/home.html", context=context)
+
+    def post(self, request):
+        form = ContactForm(data=request.POST)
+        if form.is_valid():
+            ob = form.save()
+            request.session["contact"] = ob.pk
+            return redirect(reverse("main:reminder"))
+        else:
+            return render(request, "main/home.html", context={"contact_form": form})

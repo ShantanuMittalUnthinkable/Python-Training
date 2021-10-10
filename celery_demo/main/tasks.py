@@ -24,5 +24,6 @@ def set_reminder(reminder):
             "heading": rem.heading,
             "body": rem.body,
             "scheduled_at": str(rem.scheduled_at),
+            "receiver_email": rem.contact.email,
         },
     )

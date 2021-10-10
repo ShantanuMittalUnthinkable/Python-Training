@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm, widgets
-from .models import Reminder
+from .models import Reminder, Contact
 
 
 class ReminderForm(ModelForm):
@@ -18,4 +18,12 @@ class ReminderForm(ModelForm):
 
     class Meta:
         model = Reminder
+        exclude = [
+            "contact",
+        ]
+
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
         fields = "__all__"
